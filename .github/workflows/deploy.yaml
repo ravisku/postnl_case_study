@@ -51,13 +51,15 @@ jobs:
         run: zip -r ../common_utils.zip common_utils.py
 
       - name: Zip Lambda
-        working-directory: lambda
-        run: zip -r lambda_slack_message.zip lambda_slack_message.py
+        run: zip -j lambda_slack_message.zip lambda/lambda_slack_message.py
 
       - name: Upload scripts and dependencies to S3
         run: |
           aws s3 cp etl_script/01_bronze_events.py s3://postnl-case-study/etl_script/01_bronze_events.py
           aws s3 cp common_utils.zip s3://postnl-case-study/etl_script/common_utils.zip
+
+      - name: Verify Lambda ZIP File Exists
+        run: ls -l lambda_slack_message.zip
 
       - name: Initialize Terraform
         working-directory: ./terraform
@@ -68,6 +70,6 @@ jobs:
         env:
           TF_VAR_bronze_script_location: "s3://postnl-case-study/etl_script/01_bronze_events.py"
           TF_VAR_common_utils_location: "s3://postnl-case-study/etl_script/common_utils.zip"
-          TF_VAR_lambda_script_location: "./lambda_slack_message.zip"
+          TF_VAR_lambda_script_location: "../lambda_slack_message.zip"
           TF_VAR_slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: terraform apply -auto-approve -input=false
