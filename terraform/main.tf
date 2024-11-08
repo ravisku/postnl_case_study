@@ -175,4 +175,4 @@ resource "aws_lambda_permission" "allow_eventbridge" {
 variable "bronze_script_location" {}
 variable "common_utils_location" {}
 variable "lambda_script_location" {}
-
+variable "slack_webhook_url" {}
