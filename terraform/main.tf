@@ -105,6 +105,29 @@ resource "aws_glue_crawler" "bronze_crawler" {
   })
 }
 
+resource "aws_iam_role" "lambda_role" {
+  name = "lambda_eventbridge_to_slack_role"
+
+  assume_role_policy = jsonencode({
+    Version : "2012-10-17",
+    Statement : [
+      {
+        Action : "sts:AssumeRole",
+        Principal : { 
+          "Service" : "lambda.amazonaws.com" 
+        },
+        Effect : "Allow",
+        Sid : ""
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy_attachment" "lambda_logs" {
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
 resource "aws_lambda_function" "notify_slack_on_failure" {
   function_name = "notify_slack_on_glue_failure"
   role          = aws_iam_role.lambda_role.arn
@@ -114,7 +137,7 @@ resource "aws_lambda_function" "notify_slack_on_failure" {
 
   environment {
     variables = {
-      SLACK_WEBHOOK_URL = var.slack_webhook_url
+      SLACK_WEBHOOK_URL = "test"
     }
   }
 
