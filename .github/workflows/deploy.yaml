@@ -52,7 +52,7 @@ jobs:
 
       - name: Zip Lambda
         working-directory: lambda
-        run: zip -r lambda_slack_message.zip lambda/lambda_slack_message.py
+        run: zip -r lambda_slack_message.zip lambda_slack_message.py
 
       - name: Upload scripts and dependencies to S3
         run: |
