@@ -122,7 +122,7 @@ resource "aws_iam_role" "lambda_role" {
 }
 
 resource "aws_iam_policy_attachment" "lambda_logs" {
-  role      = aws_iam_role.lambda_role.name
+  role       = aws_iam_role.lambda_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
@@ -175,3 +175,4 @@ resource "aws_lambda_permission" "allow_eventbridge" {
 variable "bronze_script_location" {}
 variable "common_utils_location" {}
 variable "lambda_script_location" {}
+variable "slack_webhook_url" {}
