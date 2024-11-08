@@ -126,6 +126,51 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
+resource "aws_lambda_function" "notify_slack_on_failure" {
+  function_name = "notify_slack_on_glue_failure"
+  role          = aws_iam_role.lambda_role.arn
+  handler       = "lambda_function.lambda_handler"
+  runtime       = "python3.8"
+  timeout       = 10
+
+  environment {
+    variables = {
+      SLACK_WEBHOOK_URL = "test"
+    }
+  }
+
+  # Inline Python code for the Lambda function
+  source_code_hash = filebase64sha256(var.lambda_script_location)
+  filename         = var.lambda_script_location
+}
+
+resource "aws_cloudwatch_event_rule" "glue_job_failure_rule" {
+  name        = "glue_job_failure_rule"
+  description = "Triggers Lambda when a Glue job fails"
+  event_pattern = jsonencode({
+    "source" : ["aws.glue"],
+    "detail-type" : ["Glue Job State Change"],
+    "detail" : {
+      "jobName" : "bronze-events-job",
+      "state" : ["FAILED"]
+    }
+  })
+}
+
+resource "aws_cloudwatch_event_target" "send_to_lambda" {
+  rule      = aws_cloudwatch_event_rule.glue_job_failure_rule.name
+  target_id = "send_to_lambda"
+  arn       = aws_lambda_function.notify_slack_on_failure.arn
+}
+
+resource "aws_lambda_permission" "allow_eventbridge" {
+  statement_id  = "AllowExecutionFromEventBridge"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.notify_slack_on_failure.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.glue_job_failure_rule.arn
+}
+
 # Variables for script and dependency locations
 variable "bronze_script_location" {}
 variable "common_utils_location" {}
