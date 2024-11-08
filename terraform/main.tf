@@ -150,7 +150,7 @@ resource "aws_cloudwatch_event_rule" "glue_job_failure_rule" {
     "source" : ["aws.glue"],
     "detail-type" : ["Glue Job State Change"],
     "detail" : {
-      "jobName" : "bronze-events-job",
+      "jobName" : ["bronze-events-job"],
       "state" : ["FAILED"]
     }
   })
