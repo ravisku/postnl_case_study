@@ -106,7 +106,3 @@ resource "aws_glue_crawler" "bronze_crawler" {
   })
 }
 
-
-# Variables for script and dependency locations
-variable "bronze_events_script_location" {}
-variable "common_utils_location" {}
