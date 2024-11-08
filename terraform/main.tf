@@ -88,7 +88,7 @@ resource "aws_glue_catalog_database" "bronze_database" {
 }
 
 resource "aws_glue_crawler" "bronze_crawler" {
-  name = "bronze_crawler"
+  name = "bronze_events_crawler"
   role = aws_iam_role.glue_role.arn
 
   database_name = aws_glue_catalog_database.bronze_database.name
