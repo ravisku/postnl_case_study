@@ -69,5 +69,5 @@ jobs:
         env:
           TF_VAR_bronze_script_location: "s3://postnl-case-study/etl_script/01_bronze_events.py"
           TF_VAR_common_utils_location: "s3://postnl-case-study/etl_script/common_utils.zip"
-          TF_VAR_common_utils_location: "s3://postnl-case-study/lambda/lambda_slack_message.zip"
+          TF_VAR_lambda_script_location: "s3://postnl-case-study/lambda/lambda_slack_message.zip"
         run: terraform apply -auto-approve -input=false
