@@ -122,8 +122,8 @@ resource "aws_iam_role" "lambda_role" {
 }
 
 resource "aws_iam_policy_attachment" "lambda_logs" {
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
   role       = aws_iam_role.lambda_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
 resource "aws_lambda_function" "notify_slack_on_failure" {
