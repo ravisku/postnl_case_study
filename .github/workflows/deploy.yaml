@@ -58,7 +58,6 @@ jobs:
         run: |
           aws s3 cp etl_script/01_bronze_events.py s3://postnl-case-study/etl_script/01_bronze_events.py
           aws s3 cp common_utils.zip s3://postnl-case-study/etl_script/common_utils.zip
-          aws s3 cp lambda_slack_message.zip s3://postnl-case-study/lambda/lambda_slack_message.zip
 
       - name: Initialize Terraform
         working-directory: ./terraform

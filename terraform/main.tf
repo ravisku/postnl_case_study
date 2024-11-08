@@ -135,7 +135,7 @@ resource "aws_lambda_function" "notify_slack_on_failure" {
 
   environment {
     variables = {
-      SLACK_WEBHOOK_URL = "test"
+      SLACK_WEBHOOK_URL = var.slack_webhook_url
     }
   }
 
