@@ -18,8 +18,8 @@ from common_utils import trigger_glue_crawler
 spark = SparkSession.builder.appName("ETL Pipeline for bronze layer").getOrCreate()
 
 # Define file paths for source data and the Bronze layer destination.
-bronze_path = "s3://post-nl-assignment/target_files/bronze/events/"
-source_path = "s3://post-nl-assignment/source_file/"
+bronze_path = "s3://postnl-case-study/target_files/bronze/events/"
+source_path = "s3://postnl-case-study/source_file/"
 crawler_name = "bronze_events_crawler"
 
 # Set up logging configuration
