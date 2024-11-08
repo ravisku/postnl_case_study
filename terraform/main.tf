@@ -140,8 +140,7 @@ resource "aws_lambda_function" "notify_slack_on_failure" {
   }
 
   # Inline Python code for the Lambda function
-  source_code_hash = filebase64sha256(var.lambda_script_location)
-  filename         = var.lambda_script_location
+  filename = var.lambda_script_location
 }
 
 resource "aws_cloudwatch_event_rule" "glue_job_failure_rule" {
