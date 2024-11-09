@@ -129,7 +129,7 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
 resource "aws_lambda_function" "notify_slack_on_failure" {
   function_name = "notify_slack_on_glue_failure"
   role          = aws_iam_role.lambda_role.arn
-  handler       = "lambda_function.lambda_handler"
+  handler       = "lambda_slack_message.lambda_handler"
   runtime       = "python3.8"
   timeout       = 10
 
