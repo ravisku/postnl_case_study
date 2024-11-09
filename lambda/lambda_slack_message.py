@@ -11,7 +11,6 @@ webhook_url = (
 
 def lambda_handler(event, context):
     # Extract the Glue job name and error message from the event
-    print(event)
     detail = event.get("detail", {})
     print(detail)
     job_name = detail.get("jobName", "Unknown Job")
