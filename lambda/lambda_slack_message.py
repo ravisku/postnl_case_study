@@ -11,7 +11,9 @@ webhook_url = (
 
 def lambda_handler(event, context):
     # Extract the Glue job name and error message from the event
+    print(event)
     detail = event.get("detail", {})
+    print(detail)
     job_name = detail.get("jobName", "Unknown Job")
     state = detail.get("state", "Unknown State")
 
@@ -31,5 +33,5 @@ def lambda_handler(event, context):
         body=json.dumps(message),
         headers={"Content-Type": "application/json"},
     )
-
+    print(response)
     return {"statusCode": response.status, "response": response.data.decode("utf-8")}
